@@ -113,7 +113,7 @@ const QuoteScreen = () => {
             px: 2,
             py: 1,
             "&:hover": {
-              backgroundColor: "rgba(255,255,255,0.25)",
+              backgroundColor: "rgba(0, 0, 0, 0.25)",
             },
           }}
           onClick={() => navigate("/home")}
@@ -184,7 +184,7 @@ const QuoteScreen = () => {
                   mt: 5,
                 }}
               >
-                Project Quote Form
+                Quotation / Cost Sheet
               </Typography>
             </Box>
 

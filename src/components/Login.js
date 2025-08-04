@@ -31,7 +31,7 @@ const Login = () => {
   const handleLogin = () => {
     setIsLoading(true);
     setTimeout(() => {
-      if (username === "ValueRealitty" && password === "value!23") {
+      if (username === "ValueRealitty" && password === "pass!123") {
         navigate("/home");
         setError("");
       } else {

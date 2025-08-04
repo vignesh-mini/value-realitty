@@ -55,7 +55,6 @@ const PrintPreview = ({ form, logo, type, receiptNumber }) => {
       <div class="field"><div class="label">LOAN / CASH</div><div class="value">${
         form.loanCash || ""
       }</div></div>
-      <div class="signature">Signature: ________________</div>
     `;
   } else if (type === "Quotation") {
     const plotSize = Number(form.plotSize);
@@ -132,7 +131,7 @@ const PrintPreview = ({ form, logo, type, receiptNumber }) => {
         margin-bottom: 10px;
       }
       .logo {
-        height: 100px;
+        height: 120px;
         width: 120px;
       }
       .main-title {

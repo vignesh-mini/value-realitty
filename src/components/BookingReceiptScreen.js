@@ -28,8 +28,24 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import backgroundImage from "../assets/BGMobile.png";
 import logo from "../assets/logo.jpeg";
 import PrintPreview from "./utils/PrintWrapper";
+import { saveAs } from "file-saver";
 
 const BookingReceiptScreen = () => {
+  const [isPrinting, setIsPrinting] = useState(false);
+  const [formData, setFormData] = useState({
+    date: new Date(),
+    clientName: "",
+    clientPhone: "",
+    clientAddress: "",
+    layoutPlot: "",
+    sqFt: "",
+    rate: "",
+    advance: "",
+    mode: "",
+    regDate: null,
+    loanCash: "",
+  });
+
   const navigate = useNavigate();
 
   // Payment mode options with icons
@@ -61,22 +77,6 @@ const BookingReceiptScreen = () => {
     { value: "Part Loan Part Cash", color: "#9c27b0" },
   ];
 
-  const [formData, setFormData] = useState({
-    date: new Date(),
-    clientName: "",
-    clientPhone: "",
-    clientAddress: "",
-    layoutPlot: "",
-    sqFt: "",
-    rate: "",
-    advance: "",
-    mode: "",
-    regDate: new Date(),
-    loanCash: "",
-  });
-
-  const [isPrinting, setIsPrinting] = useState(false);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -86,8 +86,14 @@ const BookingReceiptScreen = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const isValidPhoneNumber = (number) => {
+    const phoneRegex = /^[6-9]\d{9}$/; // Indian mobile format
+    return phoneRegex.test(number);
+  };
+
   const isFormValid = () => {
-    return Object.values(formData).every((val) => val !== "");
+    const allFilled = Object.values(formData).every((val) => val !== "");
+    return allFilled && isValidPhoneNumber(formData.clientPhone);
   };
 
   const getNextReceiptNumber = () => {
@@ -96,6 +102,32 @@ const BookingReceiptScreen = () => {
     const next = last + 1;
     localStorage.setItem(key, next.toString());
     return next;
+  };
+
+  const handleWhatsAppShare = () => {
+    const receiptNumber = getNextReceiptNumber();
+
+    const html = PrintPreview({
+      form: formData,
+      logo,
+      type: "Receipt",
+      receiptNumber,
+    });
+
+    const blob = new Blob([html], { type: "text/html" });
+    const file = new File([blob], `Receipt-${receiptNumber}.html`, {
+      type: "text/html",
+    });
+
+    saveAs(file);
+
+    const formattedNumber = `91${formData.clientPhone}`;
+    const message = encodeURIComponent(
+      `Hello ${formData.clientName}, please find your booking receipt attached.`
+    );
+    const whatsappURL = `https://wa.me/${formattedNumber}?text=${message}`;
+
+    window.open(whatsappURL, "_blank");
   };
 
   const handlePrint = () => {
@@ -159,7 +191,7 @@ const BookingReceiptScreen = () => {
               px: 2,
               py: 1,
               "&:hover": {
-                backgroundColor: "rgba(255,255,255,0.25)",
+                backgroundColor: "rgba(0, 0, 0, 0.25)",
               },
             }}
             onClick={() => navigate("/home")}
@@ -407,7 +439,7 @@ const BookingReceiptScreen = () => {
 
                 {/* Enhanced Mode Dropdown */}
                 <Grid item xs={12} sm={12}>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth variant="outlined">
                     <InputLabel
                       id="mode-label"
                       sx={{
@@ -427,6 +459,15 @@ const BookingReceiptScreen = () => {
                       sx={{
                         borderRadius: "14px",
                         backgroundColor: "#f8f9fa",
+                        width: "160px",
+                        height: "56px",
+                        display: "flex",
+                        alignItems: "center",
+                        "& .MuiSelect-select": {
+                          display: "flex",
+                          alignItems: "center",
+                          padding: "14px",
+                        },
                         "& .MuiOutlinedInput-notchedOutline": {
                           borderColor: "#ced4da",
                         },
@@ -455,6 +496,7 @@ const BookingReceiptScreen = () => {
                           sx={{
                             display: "flex",
                             alignItems: "center",
+                            gap: 1,
                             py: 1.5,
                             borderRadius: "8px",
                             margin: "4px 8px",
@@ -516,6 +558,15 @@ const BookingReceiptScreen = () => {
                       sx={{
                         borderRadius: "14px",
                         backgroundColor: "#f8f9fa",
+                        height: "56px",
+                        width: "130px",
+                        display: "flex",
+                        alignItems: "center",
+                        "& .MuiSelect-select": {
+                          display: "flex",
+                          alignItems: "center",
+                          padding: "14px",
+                        },
                         "& .MuiOutlinedInput-notchedOutline": {
                           borderColor: "#ced4da",
                         },
@@ -609,6 +660,41 @@ const BookingReceiptScreen = () => {
                       {isPrinting ? "Generating PDF..." : "Print Receipt"}
                     </Button>
                   </span>
+                  {/* <span style={{ marginLeft: "20px" }}>
+                    <Button
+                      variant="outlined"
+                      startIcon={
+                        <img
+                          src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+                          alt="WA"
+                          style={{ width: 24 }}
+                        />
+                      }
+                      disabled={!isFormValid() || isPrinting}
+                      onClick={handleWhatsAppShare}
+                      sx={{
+                        borderRadius: "14px",
+                        borderColor: "#25D366",
+                        color: "#25D366",
+                        px: 4,
+                        py: 1.5,
+                        fontWeight: 600,
+                        fontSize: "1rem",
+                        minWidth: "180px",
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          backgroundColor: "#25D366",
+                          color: "white",
+                        },
+                        "&:disabled": {
+                          borderColor: "#e0e0e0",
+                          color: "#9e9e9e",
+                        },
+                      }}
+                    >
+                      Share via WhatsApp
+                    </Button>
+                  </span> */}
                 </Tooltip>
               </Box>
 

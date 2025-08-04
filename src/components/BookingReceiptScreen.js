@@ -28,7 +28,6 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import backgroundImage from "../assets/BGMobile.png";
 import logo from "../assets/logo.jpeg";
 import PrintPreview from "./utils/PrintWrapper";
-import { saveAs } from "file-saver";
 
 const BookingReceiptScreen = () => {
   const [isPrinting, setIsPrinting] = useState(false);
@@ -102,32 +101,6 @@ const BookingReceiptScreen = () => {
     const next = last + 1;
     localStorage.setItem(key, next.toString());
     return next;
-  };
-
-  const handleWhatsAppShare = () => {
-    const receiptNumber = getNextReceiptNumber();
-
-    const html = PrintPreview({
-      form: formData,
-      logo,
-      type: "Receipt",
-      receiptNumber,
-    });
-
-    const blob = new Blob([html], { type: "text/html" });
-    const file = new File([blob], `Receipt-${receiptNumber}.html`, {
-      type: "text/html",
-    });
-
-    saveAs(file);
-
-    const formattedNumber = `91${formData.clientPhone}`;
-    const message = encodeURIComponent(
-      `Hello ${formData.clientName}, please find your booking receipt attached.`
-    );
-    const whatsappURL = `https://wa.me/${formattedNumber}?text=${message}`;
-
-    window.open(whatsappURL, "_blank");
   };
 
   const handlePrint = () => {
@@ -660,41 +633,6 @@ const BookingReceiptScreen = () => {
                       {isPrinting ? "Generating PDF..." : "Print Receipt"}
                     </Button>
                   </span>
-                  {/* <span style={{ marginLeft: "20px" }}>
-                    <Button
-                      variant="outlined"
-                      startIcon={
-                        <img
-                          src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-                          alt="WA"
-                          style={{ width: 24 }}
-                        />
-                      }
-                      disabled={!isFormValid() || isPrinting}
-                      onClick={handleWhatsAppShare}
-                      sx={{
-                        borderRadius: "14px",
-                        borderColor: "#25D366",
-                        color: "#25D366",
-                        px: 4,
-                        py: 1.5,
-                        fontWeight: 600,
-                        fontSize: "1rem",
-                        minWidth: "180px",
-                        transition: "all 0.3s ease",
-                        "&:hover": {
-                          backgroundColor: "#25D366",
-                          color: "white",
-                        },
-                        "&:disabled": {
-                          borderColor: "#e0e0e0",
-                          color: "#9e9e9e",
-                        },
-                      }}
-                    >
-                      Share via WhatsApp
-                    </Button>
-                  </span> */}
                 </Tooltip>
               </Box>
 

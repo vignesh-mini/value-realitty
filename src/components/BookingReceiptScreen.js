@@ -446,7 +446,7 @@ const BookingReceiptScreen = () => {
                       sx={{
                         borderRadius: "14px",
                         backgroundColor: "#f8f9fa",
-                        width: "160px",
+                        width: "220px",
                         height: "56px",
                         display: "flex",
                         alignItems: "center",
@@ -545,7 +545,7 @@ const BookingReceiptScreen = () => {
                         borderRadius: "14px",
                         backgroundColor: "#f8f9fa",
                         height: "56px",
-                        width: "130px",
+                        width: "200px",
                         display: "flex",
                         alignItems: "center",
                         "& .MuiSelect-select": {

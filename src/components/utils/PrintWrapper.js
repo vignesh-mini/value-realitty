@@ -16,7 +16,7 @@ const formatDate = (dateString) => {
   }
 };
 
-const PrintPreview = ({ form, logo, type, receiptNumber }) => {
+const PrintPreview = ({ form, printLogo, type, receiptNumber }) => {
   // Calculate values for quotation
   let contentHtml = "";
   const formattedDate = formatDate(form.date);
@@ -214,7 +214,7 @@ const PrintPreview = ({ form, logo, type, receiptNumber }) => {
 
   const commonHeader = `
     <div class="header">
-      <img src="${logo}" class="logo" alt="Company Logo" />
+      <img src="${printLogo}" class="logo" alt="Company Logo" />
       <div class="main-title">VALUE REALITTY</div>
       <div class="tagline">Residential | Commercial | Investment</div>
       <div class="subheader">

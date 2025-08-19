@@ -37,7 +37,10 @@ const QuoteScreen = () => {
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+    if (name === "projectName") {
+      value = value.toUpperCase();
+    }
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -223,7 +226,6 @@ const QuoteScreen = () => {
                         fontSize: "1rem",
                       },
                       endAdornment: [
-                        "plotSize",
                         "ratePerSqFt",
                         "guideLineValue",
                         "sellingPrice",

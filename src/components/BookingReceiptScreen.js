@@ -27,6 +27,7 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import backgroundImage from "../assets/BGMobile.png";
 import logo from "../assets/logo.jpeg";
+import printLogo from "../assets/print-logo.png";
 import PrintPreview from "./utils/PrintWrapper";
 
 const BookingReceiptScreen = () => {
@@ -110,7 +111,7 @@ const BookingReceiptScreen = () => {
     const printWindow = window.open("", "_blank");
     const html = PrintPreview({
       form: formData,
-      logo,
+      printLogo,
       type: "Receipt",
       receiptNumber,
     });
@@ -143,6 +144,18 @@ const BookingReceiptScreen = () => {
             background:
               "linear-gradient(135deg, rgba(14, 53, 89, 0.92) 0%, rgba(34, 98, 145, 0.85) 100%)",
             zIndex: 1,
+          },
+          // Global styles to remove number input arrows
+          "& input[type=number]": {
+            "-moz-appearance": "textfield",
+          },
+          "& input[type=number]::-webkit-outer-spin-button": {
+            "-webkit-appearance": "none",
+            margin: 0,
+          },
+          "& input[type=number]::-webkit-inner-spin-button": {
+            "-webkit-appearance": "none",
+            margin: 0,
           },
         }}
       >
@@ -301,6 +314,7 @@ const BookingReceiptScreen = () => {
                     name="clientPhone"
                     value={formData.clientPhone}
                     onChange={handleChange}
+                    type="number"
                     variant="outlined"
                     InputProps={{
                       style: {
@@ -490,7 +504,6 @@ const BookingReceiptScreen = () => {
                   <DatePicker
                     label="Registration Date"
                     value={formData.regDate}
-                    minDate={new Date()}
                     onChange={(newValue) =>
                       handleDateChange("regDate", newValue)
                     }

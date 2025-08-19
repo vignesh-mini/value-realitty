@@ -215,7 +215,7 @@ const PrintPreview = ({ form, logo, type, receiptNumber }) => {
   const commonHeader = `
     <div class="header">
       <img src="${logo}" class="logo" alt="Company Logo" />
-      <div class="main-title">VALUE REALITY</div>
+      <div class="main-title">VALUE REALITTY</div>
       <div class="tagline">Residential | Commercial | Investment</div>
       <div class="subheader">
         K. Mahendran, Founder and Chairman <br/>

@@ -19,6 +19,7 @@ import {
 } from "@mui/icons-material";
 import backgroundImage from "../assets/BGMobile.png";
 import logo from "../assets/logo.jpeg";
+import printLogo from "../assets/print-logo.png";
 import PrintPreview from "./utils/PrintWrapper";
 
 const QuoteScreen = () => {
@@ -63,7 +64,7 @@ const QuoteScreen = () => {
     const printWindow = window.open("", "_blank");
     const html = PrintPreview({
       form: formData,
-      logo,
+      printLogo,
       type: "Quotation",
       receiptNumber,
     });
@@ -95,6 +96,18 @@ const QuoteScreen = () => {
           background:
             "linear-gradient(135deg, rgba(14, 53, 89, 0.92) 0%, rgba(34, 98, 145, 0.85) 100%)",
           zIndex: 1,
+        },
+     // Global styles to remove number input arrows
+        "& input[type=number]": {
+          "-moz-appearance": "textfield",
+        },
+        "& input[type=number]::-webkit-outer-spin-button": {
+          "-webkit-appearance": "none",
+          margin: 0,
+        },
+        "& input[type=number]::-webkit-inner-spin-button": {
+          "-webkit-appearance": "none",
+          margin: 0,
         },
       }}
     >
